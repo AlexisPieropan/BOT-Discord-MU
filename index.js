@@ -4,9 +4,10 @@ const screenshot = require('screenshot-desktop');
 const fs = require('fs');
 
 // Configuración del bot de Discord
-const client = new Client({ intents: "privilegiosDebot" });
+const client = new Client({ intents:  });
 const TOKEN = ''; // Reemplaza esto con tu token de bot de Discord
 const CHANNEL_ID = ''; // Reemplaza esto con el ID del canal de Discord donde quieres que el bot envíe mensajes
+const USER_ID = '';
 
 // Cuando el bot esté listo
 client.once('ready', async () => {
@@ -20,6 +21,13 @@ client.once('ready', async () => {
             return;
         }
         console.log(`Conectado al canal: ${channel.name}`);
+
+         // Obtener el tag del usuario basado en el USER_ID usando fetch
+         const user = await client.users.fetch(USER_ID)
+         .catch(err => {
+             console.error(`Error al obtener el usuario: ${err}`);
+             return null; // Devolver null en caso de error
+         });
 
         // Función que captura pantalla, analiza con OCR y notifica a Discord
         const checkForBossKill = async () => {
@@ -36,8 +44,10 @@ client.once('ready', async () => {
                             // Obtener el nombre del jefe del texto (esto es solo un ejemplo)
                             const jefeNombre = text.match(/Jefe derrotado\s*(\w+)/)?.[1] || 'desconocido';
 
-                            // Obtener el tag del usuario (bot)
-                            const userTag = client.user.tag;
+            
+                            //TOMA EL USER QUE VIENE DEL FETCH SINO DA EL MSJ DE "USU DESCO"
+                            const userTag = user ? user.tag : 'Usuario desconocido';
+                            
 
                             // Mensaje personalizado
                             const mensaje = `${userTag} derrotó al jefe ${jefeNombre} 🎉`;
