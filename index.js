@@ -38,7 +38,7 @@ client.once('ready', async () => {
                 await screenshot({ filename: 'screen.png' });
 
                 // Aplicar OCR a la imagen capturada
-                tesseract.recognize('screen.png', 'eng', { tessedit_pageseg_mode: '7' }) // OCR configurado para una línea de texto
+                tesseract.recognize('screen.png', 'eng', { tessedit_pageseg_mode: '3' }) // OCR configurado para una línea de texto
                 .then(({ data: { text } }) => {
                     console.log("Texto extraído por OCR:", text); // Imprimir todo el texto extraído
             
@@ -51,12 +51,12 @@ client.once('ready', async () => {
                     // Crear una expresión regular para buscar exactamente el gamer tag como una palabra completa
                     const regex = new RegExp(`\\b${gamerTagNormalizado}\\b`);
             
-                    // Verificamos coincidencia exacta
-                    if (textoExtraido.includes("jefe derrotado") && regex.test(textoExtraido)) {
+                    //!! Verificamos coincidencia exacta
+                    if (textoExtraido.includes("obtained") && regex.test(textoExtraido)) {
                         console.log("¡Jefe derrotado detectado y gamer tag confirmado!");
             
                         // Obtener el nombre del jefe después de "Jefe derrotado"
-                        const jefeNombre = textoExtraido.match(/jefe derrotado\s*(\w+)/)?.[1] || 'desconocido';
+                        const jefeNombre = textoExtraido.match(/obtained\s*(\w+)/)?.[1] || 'desconocido';
             
                        
             
